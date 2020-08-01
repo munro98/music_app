@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:io';
 
 import 'side_drawer.dart';
+import 'song_list.dart';
 
 void main() {
   runApp(MyApp());
@@ -54,6 +57,21 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  bool _isPlaying = false;
+
+  void _playPause() {
+    setState(() {
+      _isPlaying = !_isPlaying;
+    });
+  }
+
+  void _skipNext() {
+
+  }
+
+  void _skipPrev() {
+
+  }
 
   void _incrementCounter() {
     setState(() {
@@ -83,35 +101,11 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
+        child: SongList(),
       ),
       drawer: SideDrawer(),
       bottomNavigationBar: Stack(
+        
           children: [
             new Container(
               height: 100.0,
@@ -122,18 +116,40 @@ class _MyHomePageState extends State<MyHomePage> {
               right: 0.0,
               top: 0.0,
               bottom: 0.0,
-              child: new CustomPaint(
-                //painter: Sky(),
-                size: Size.infinite,
-              ),
+              child: Column(
+                children: [ 
+                  Row( 
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [ 
+                new Container(
+                  height: 6.0,
+                  width: MediaQuery.of(context).size.width * 2.0/3.0,
+                  alignment: Alignment.topLeft,
+                  color: Colors.lightBlue,
+                )]),
+                Row( 
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FlatButton(onPressed: _skipPrev, child : Icon(Icons.replay, size: 26.0)),
+                    FlatButton(onPressed: _skipNext, child : Icon(Icons.skip_previous, size: 42.0)),
+                    FlatButton(onPressed: _playPause, child : _isPlaying ? Icon(Icons.pause, size: 46.0) : Icon(Icons.play_arrow, size: 46.0)),
+                    FlatButton(onPressed: _skipPrev, child : Icon(Icons.skip_next, size: 42.0)),
+                    FlatButton(onPressed: _skipPrev, child : Icon(Icons.repeat, size: 26.0)),
+                    
+                ]),
+                Row( 
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    FlatButton(onPressed: _skipPrev, child : Image(image: FileImage( File("assets/images/test.jpeg")), width: 42,)),
+                    FlatButton(onPressed: _skipNext, child : Icon(Icons.skip_previous, size: 42.0)),
+                ])
+                ]),
+
             ),
           ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+
+
     );
   }
 }
