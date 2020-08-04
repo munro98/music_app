@@ -13,7 +13,6 @@ class SongList extends StatefulWidget {
   SongList({Key key, this.title}) : super(key: key);
 
   final String title;
-  //final List<String> _songs;
 
   @override
   _SongListState createState() => _SongListState();
@@ -114,7 +113,7 @@ class _SongListState extends State<SongList> {
     super.initState();
 
     for (int i = 0; i < 100; i++)
-      _songs.add(new Song(i, "ArtistName", "Flight", 123));
+      _songs.add(new Song(i, "ArtistName", "Song", 123));
 
     //print(" initState" + _posts.length.toString());
   }
@@ -133,10 +132,6 @@ class _SongListState extends State<SongList> {
   @override
   Widget build(BuildContext context) {
     return 
-              //child: ListTile(title: new Text(" sdasdg - asdg"))
-              //ListView(children: [ListTile(title: new Text(" sdasdg - asdg"))],)
-
-              ///*
               new ListView.builder(
                 itemExtent: 40.0,
                 itemCount: _songs.length,
@@ -144,9 +139,6 @@ class _SongListState extends State<SongList> {
                   return new SongItem(_songs[index], this);
                 },
               )
-              //*/
-
-
           ;
   }
 }
